@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-kinoko.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-kinoko.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-kinoko.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-kinoko.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="runtime," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="isa指针要认识什么是 isa 指针，我们得先明确一点： 在 Objective-C 中，任何类的定义都是对象。类和类的实例（对象）没有任何本质上的区别。任何对象都有 isa 指针。 那么什么是类呢？在 xcode 中用快捷键 Shift＋Cmd＋O 打开文件 objc.h 能看到类的定义：123456789101112131415#if !OBJC_TYPES_DEFINED/// An opa">
+<meta name="keywords" content="runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C isa 指针 与 runtime 机制">
+<meta property="og:url" content="http://yoursite.com/Programming/objective-c-isa-pointer-and-runtime/index.html">
+<meta property="og:site_name" content="Natsume Reiko">
+<meta property="og:description" content="isa指针要认识什么是 isa 指针，我们得先明确一点： 在 Objective-C 中，任何类的定义都是对象。类和类的实例（对象）没有任何本质上的区别。任何对象都有 isa 指针。 那么什么是类呢？在 xcode 中用快捷键 Shift＋Cmd＋O 打开文件 objc.h 能看到类的定义：123456789101112131415#if !OBJC_TYPES_DEFINED/// An opa">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/449095-3e972ec16703c54d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/q/100">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1194882-2c8707760366083b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-29T10:54:12.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C isa 指针 与 runtime 机制">
+<meta name="twitter:description" content="isa指针要认识什么是 isa 指针，我们得先明确一点： 在 Objective-C 中，任何类的定义都是对象。类和类的实例（对象）没有任何本质上的区别。任何对象都有 isa 指针。 那么什么是类呢？在 xcode 中用快捷键 Shift＋Cmd＋O 打开文件 objc.h 能看到类的定义：123456789101112131415#if !OBJC_TYPES_DEFINED/// An opa">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/449095-3e972ec16703c54d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/q/100">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Programming/objective-c-isa-pointer-and-runtime/"/>
+
+
+
+
+
+  <title>Objective-C isa 指针 与 runtime 机制 | Natsume Reiko</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="top-scroll-bar"></div>
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Natsume Reiko</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">A curious neko</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Programming/objective-c-isa-pointer-and-runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kinoko">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar_kinoko.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Natsume Reiko">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Objective-C isa 指针 与 runtime 机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-24T00:00:00+08:00">
+                2017-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Programming/objective-c-isa-pointer-and-runtime/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Programming/objective-c-isa-pointer-and-runtime/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="isa指针"><a href="#isa指针" class="headerlink" title="isa指针"></a>isa指针</h4><p>要认识什么是 isa 指针，我们得先明确一点：</p>
+<p><strong>在 Objective-C 中，任何类的定义都是对象。类和类的实例（对象）没有任何本质上的区别。任何对象都有 isa 指针。</strong></p>
+<p>那么什么是类呢？在 xcode 中用快捷键 Shift＋Cmd＋O 打开文件 objc.h 能看到类的定义：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#if !OBJC_TYPES_DEFINED</span></span><br><span class="line"><span class="comment">/// An opaque type that represents an Objective-C class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// A pointer to an instance of a class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="keyword">id</span>;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// An opaque type that represents a method selector.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector *SEL;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出:</p>
+<p><strong>Class 是一个 objc_class 结构类型的指针, id是一个 objc_object 结构类型的指针.</strong></p>
+<p>我们再来看看 objc_class 的定义 (runtime.h 中)：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#if !OBJC_TYPES_DEFINED</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// An opaque type that represents a method in a class definition.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_method *Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// An opaque type that represents an instance variable.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_ivar *Ivar;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// An opaque type that represents a category.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_category *Category;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// An opaque type that represents an Objective-C declared property.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_property *objc_property_t;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#if !__OBJC2__</span></span><br><span class="line">    Class super_class                                        OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name                                         OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_method_list **methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_cache *cache                                 OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#ifdef __OBJC__</span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">Protocol</span>;</span></span><br><span class="line"><span class="meta">#else</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object Protocol;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// Defines a method</span></span><br><span class="line"><span class="keyword">struct</span> objc_method_description &#123;</span><br><span class="line">	SEL name;               <span class="comment">/**&lt; The name of the method */</span></span><br><span class="line">	<span class="keyword">char</span> *types;            <span class="comment">/**&lt; The types of the method arguments */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Defines a property attribute</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;           <span class="comment">/**&lt; The name of the attribute */</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *value;          <span class="comment">/**&lt; The value of the attribute (usually empty) */</span></span><br><span class="line">&#125; objc_property_attribute_t;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>各个参数的意思：</li>
+</ul>
+<blockquote>
+<p>isa：是一个 Class 类型的指针. 每个实例对象有个 isa 的指针, 指向对象的类，而 Class 里也有个 isa 的指针, 指向 meteClass(元类)。元类保存了类方法的列表。<br>当类方法被调用时，先会从本身查找类方法的实现，如果没有，元类会向他父类查找该方法。同时注意的是：<strong>元类（meteClass）也是类，它也是对象。</strong> 元类也有 isa 指针,它的 isa 指针最终指向的是一个根元类(root meteClass).根元类的 isa 指针指向本身，这样形成了一个封闭的内循环。</p>
+</blockquote>
+<blockquote>
+<p>super_class：父类，如果该类已经是最顶层的根类,那么它为 NULL。<br>version：类的版本信息，默认为0。<br>info：供运行期使用的一些位标识。<br>instance_size：该类的实例变量大小。<br>ivars：成员变量的数组。</p>
+</blockquote>
+<ul>
+<li><p>各个类实例变量的继承关系：<br><img src="http://upload-images.jianshu.io/upload_images/449095-3e972ec16703c54d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/q/100" alt=""></p>
+<ul>
+<li><p><strong>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。</strong></p>
+</li>
+<li><p><strong>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。</strong></p>
+</li>
+<li><p><strong>所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="runtime-机制"><a href="#runtime-机制" class="headerlink" title="runtime 机制"></a>runtime 机制</h4><ul>
+<li><p>runtime：指一个程序在运行（或者在被执行）的状态。也就是说，当你打开一个程序使它在电脑上运行的时候，那个程序就是处于运行时刻。在一些编程语言中，把某些可以重用的程序或者实例打包或者重建成为“运行库”。这些实例可以在它们运行的时候被连接或者被任何程序调用。</p>
+</li>
+<li><p>objective-c 中 runtime：是一套比较底层的纯 C 语言 API，属于 1 个 C 语言库，包含了很多底层的 C 语言 API。在我们平时编写的 OC 代码中，程序运行过程时，其实最终都是转成了 runtime 的 C 语言代码。</p>
+</li>
+<li><p>runtime 的应用：</p>
+<ul>
+<li>动态创建一个类(比如 KVO 的底层实现)</li>
+<li>动态地为某个类添加属性\方法, 修改属性值\方法</li>
+<li>遍历一个类的所有成员变量(属性)\所有方法</li>
+</ul>
+</li>
+</ul>
+<p>实质上，以上的是<strong>通过相关方法来获取对象或者类的 isa 指针来实现的</strong>。</p>
+<h6 id="runtime-相关函数"><a href="#runtime-相关函数" class="headerlink" title="runtime 相关函数"></a>runtime 相关函数</h6><ol>
+<li><p>增加</p>
+<ul>
+<li>增加函数:<code>class_addMethod</code></li>
+<li>增加实例变量:<code>class_addIvar</code></li>
+<li>增加属性:<code>@dynamic</code>标签，或者<code>class_addMethod</code>，因为属性其实就是由 getter 和 setter 函数组成</li>
+<li>增加 Protocol:<code>class_addProtocol</code></li>
+</ul>
+</li>
+<li><p>获取</p>
+<ul>
+<li>获取函数列表及每个函数的信息(函数指针、函数名等等):<code>class_getClassMethod method_getName ...</code></li>
+<li>获取属性列表及每个属性的信息:<code>class_copyPropertyList</code> property_getName</li>
+<li>获取类本身的信息,如类名等：<code>class_getName class_getInstanceSize</code></li>
+<li>获取变量列表及变量信息：<code>class_copyIvarList</code></li>
+<li>获取变量的值</li>
+</ul>
+</li>
+<li><p>替换</p>
+<ul>
+<li>将实例替换成另一个类：<code>object_setClass</code></li>
+<li>替换类方法的定义：<code>class_replaceMethod</code></li>
+</ul>
+</li>
+<li><p>其他常用方法</p>
+<ul>
+<li>交换两个方法的实现：<code>method_exchangeImplementations</code>.</li>
+<li>设置一个方法的实现：<code>method_setImplementation</code>.</li>
+</ul>
+</li>
+</ol>
+<h6 id="runtime-用法"><a href="#runtime-用法" class="headerlink" title="runtime 用法"></a>runtime 用法</h6><p><img src="http://upload-images.jianshu.io/upload_images/1194882-2c8707760366083b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<hr>
+<p>Reference To:<br><a href="http://www.jianshu.com/p/41735c66dccb" target="_blank" rel="noopener">http://www.jianshu.com/p/41735c66dccb</a></p>
+
+      
+    </div>
+
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ END ------</div>
+    
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/runtime/" rel="tag"><i class="fa fa-tag"></i> runtime</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Programming/swift-3-feature/" rel="next" title="Swift 3 特性">
+                <i class="fa fa-chevron-left"></i> Swift 3 特性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Programming/hotfix-jspatch/" rel="prev" title="JSPatch – 动态更新iOS APP">
+                JSPatch – 动态更新iOS APP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar_kinoko.jpg"
+                alt="Kinoko" />
+            
+              <p class="site-author-name" itemprop="name">Kinoko</p>
+              <p class="site-description motion-element" itemprop="description">梦のような时间はいつしか过ぎて！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="aplayer" class="aplayer"></div>
+<script src="/js/src/custom/APlayer.min.js"></script>
+<script type="text/javascript">
+var ap = new APlayer({
+    element: document.getElementById('aplayer'),                       // Optional, player element
+    narrow: false,                                                     // Optional, narrow style
+    autoplay: false,                                                   // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                                       // Optional, pause other players when this player playing
+    theme: '#e6d0b2',                                                  // Optional, theme color, default: #b7daff
+    mode: 'random',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                                            // Optional, max height of play list
+    music: [{
+			title: '久遠寺有珠',
+      author: '深澤秀行',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%B7%B1%E6%BE%A4%E7%A7%80%E8%A1%8C%20-%20%E4%B9%85%E9%81%A0%E5%AF%BA%E6%9C%89%E7%8F%A0.mp3?Expires=1551720972&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=4MrWHatb4OvHN%2B1gG7Q27orxslc%3D',
+      pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThkn_1f0L71isgszDPXuTN5FOn9nHkAVzamZDRFPPBFRQNDj9D',
+		}, {
+			title: 'Million Years Ago',
+	    author: 'Adele',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/Adele%20-%20Million%20Years%20Ago.mp3?Expires=1551752694&OSSAccessKeyId=TMP.AQHR49O8If6Mo6sPjOBggewpca58KOfIoBt16OgNGh-UsuA6blWU9KAOuq6DADAtAhQ32X8SiyhxxSNBlsaSkInPTCKg4wIVAPQFHjs3HSWcjxYCtCkS5gw5_6jz&Signature=dyAiQGAr6eo2fjgJfq8omy%2FtFg0%3D',
+	    pic: 'https://t2.genius.com/unsafe/440x0/https%3A%2F%2Fimages.genius.com%2F6772172951a8192c8b3fd68f76c0ac13.594x595x1.png',
+		}, {
+      title: '被遗忘的时光',
+      author: '蔡琴',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E8%94%A1%E7%90%B4%20-%20%E8%A2%AB%E9%81%97%E5%BF%98%E7%9A%84%E6%97%B6%E5%85%89.mp3?Expires=1551721077&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=Oe43Ge7sotAk1pBtAOrspNyEa7U%3D',
+      pic: 'https://img1.doubanio.com/view/photo/albumcover/public/p2215785869.webp',
+    }, {
+      title: '琵琶语',
+      author: '林海',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%9E%97%E6%B5%B7-%E7%90%B5%E7%90%B6%E8%AF%AD.mp3?Expires=1551722533&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=DTGtlCMjw0DzfkO1dGwV4bHf8RY%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s4716282.jpg',
+    }, {
+      title: 'Lemon',
+      author: '米津玄師',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20-%20Lemon.ncm?Expires=1551720992&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=MLbfbDu2OfbHZkGwRcWHoinFFc0%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s29867205.jpg',
+    }]
+  });
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#isa指针"><span class="nav-number">1.</span> <span class="nav-text">isa指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runtime-机制"><span class="nav-number">2.</span> <span class="nav-text">runtime 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#runtime-相关函数"><span class="nav-number">2.0.1.</span> <span class="nav-text">runtime 相关函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#runtime-用法"><span class="nav-number">2.0.2.</span> <span class="nav-text">runtime 用法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kinoko</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/custom/custom.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'nHI8HW8EvJT3GQrEyk7jubVt-gzGzoHsz',
+        appKey: '1IpACOAFwl8bp3IXQHrdI0rl',
+        placeholder: 'Just go go',
+        avatar:'retro',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

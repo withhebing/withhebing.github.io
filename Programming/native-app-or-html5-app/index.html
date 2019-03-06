@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-kinoko.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-kinoko.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-kinoko.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-kinoko.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="native," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="优劣比较 Native APP指的是原生程序，一般依托于操作系统，有很强的交互，是一个完整的 APP ，可拓展性强。需要用户下载安装使用。  优点：打造完美的用户体验、性能稳定、操作速度快，上手流畅、访问本地资源（通讯录，相册）、设计出色的动效，转场、拥有系统级别的贴心通知或提醒、用户留存率高。 缺点：开发成本高（不同平台有不同的开发语言和界面适配）、维护成本高（例如一款 APP 已更新至 V5">
+<meta name="keywords" content="native">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Native or HTML5?">
+<meta property="og:url" content="http://yoursite.com/Programming/native-app-or-html5-app/index.html">
+<meta property="og:site_name" content="Natsume Reiko">
+<meta property="og:description" content="优劣比较 Native APP指的是原生程序，一般依托于操作系统，有很强的交互，是一个完整的 APP ，可拓展性强。需要用户下载安装使用。  优点：打造完美的用户体验、性能稳定、操作速度快，上手流畅、访问本地资源（通讯录，相册）、设计出色的动效，转场、拥有系统级别的贴心通知或提醒、用户留存率高。 缺点：开发成本高（不同平台有不同的开发语言和界面适配）、维护成本高（例如一款 APP 已更新至 V5">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://img0.tuicool.com/bu6BBfZ.jpg!web">
+<meta property="og:image" content="http://img2.tuicool.com/VrQRNvJ.jpg!web">
+<meta property="og:updated_time" content="2019-01-29T12:20:11.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Native or HTML5?">
+<meta name="twitter:description" content="优劣比较 Native APP指的是原生程序，一般依托于操作系统，有很强的交互，是一个完整的 APP ，可拓展性强。需要用户下载安装使用。  优点：打造完美的用户体验、性能稳定、操作速度快，上手流畅、访问本地资源（通讯录，相册）、设计出色的动效，转场、拥有系统级别的贴心通知或提醒、用户留存率高。 缺点：开发成本高（不同平台有不同的开发语言和界面适配）、维护成本高（例如一款 APP 已更新至 V5">
+<meta name="twitter:image" content="http://img0.tuicool.com/bu6BBfZ.jpg!web">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Programming/native-app-or-html5-app/"/>
+
+
+
+
+
+  <title>Native or HTML5? | Natsume Reiko</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="top-scroll-bar"></div>
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Natsume Reiko</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">A curious neko</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Programming/native-app-or-html5-app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kinoko">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar_kinoko.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Natsume Reiko">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Native or HTML5?</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-19T00:00:00+08:00">
+                2016-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Programming/native-app-or-html5-app/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Programming/native-app-or-html5-app/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="优劣比较"><a href="#优劣比较" class="headerlink" title="优劣比较"></a>优劣比较</h3><ul>
+<li><p>Native APP<br>指的是原生程序，一般依托于操作系统，有很强的交互，是一个完整的 APP ，可拓展性强。需要用户下载安装使用。</p>
+<ul>
+<li>优点：打造完美的用户体验、性能稳定、操作速度快，上手流畅、访问本地资源（通讯录，相册）、设计出色的动效，转场、拥有系统级别的贴心通知或提醒、用户留存率高。</li>
+<li>缺点：开发成本高（不同平台有不同的开发语言和界面适配）、维护成本高（例如一款 APP 已更新至 V5 版本，但仍有用户在使用 V2， V3， V4 版本，需要更多的开发人员维护之前的版本）、更新缓慢，根据不同平台，提交–审核–上线 等等不同的流程，需要经过的流程较复杂。</li>
+</ul>
+</li>
+<li><p>Web APP<br>指采用 Html5 语言写出的 APP，不需要下载安装。类似于现在所说的轻应用。生存在浏览器中的应用，基本上可以说是触屏版的网页应用。</p>
+<ul>
+<li>优点：开发成本低、更新快、更新无需通知用户，不需要手动升级、能够跨多个平台和终端。</li>
+<li>缺点：临时性的入口、无法获取系统级别的通知，提醒，动效等等、用户留存率低、设计受限制诸多、体验较差。</li>
+</ul>
+</li>
+</ul>
+<p>Html5 通常拿来做推广辅助，做个游戏，有个产品页面之类的宣传<br>主要还是Html5 渲染不过关，Network Access已经不是问题了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">其实h5和native各有优劣，</span><br><span class="line">首先是h5的优势：</span><br><span class="line">1. 用h5做的页面迭代速度快，每次就更新服务器的文件用户那头就更新了，不用好像native那样各种提交app store审核，审核不过打回来然后还继续审，万一不小心有bug带出去了又要重新更新一个版本。这是h5的一个巨大的优势——迭代迅速</span><br><span class="line">2. h5现在已经能做越来越多的事，从地理位置获取到传感器获取到陀螺仪，h5的能力已经越来越大，并且相信会变得更大，这让开发者的门槛大大降低，更多的前端可以直接用js就能做出强大的东西——潜力</span><br><span class="line">3. 跨平台。现在要做一个原生的app，至少要一批人做ios一批人做android，说不定做大点，windows phone又要找一批人搞，成本对小团队来说可相当不小，而h5，基本搞定一个就全部通用了。跨平台同样是h5的一个大优势——成本低</span><br><span class="line"></span><br><span class="line">优势说完了劣势来了：</span><br><span class="line">1. 说实话h5的性能真的差得可以，处女座表示实在很难接受，之前算是h5负责了比较久，想方设法开硬件加速，减少节点减少请求乱七八糟，是相对效率高了，但是离原生还有很大的距离，这个也不多说了，性能是硬伤——性能性能还是性能</span><br><span class="line">2. 很多h5的页面喜欢模仿原生的来做，往往原生一两句代码就能搞定的东西，用h5做要写一堆css而且还模仿得不像，人家“啪！”那个选择框就弹出来了但在h5里面卡了2下再出来，这就是差别。而且用h5的话控件难以根据系统更改风格，例如ios6,ios7的选择框是不同的，原生的话自动适配但是h5倒没那么好搞了——界面难以做到和原生一样和手机ui统一</span><br><span class="line">3. h5的bug真的呵呵呵呵呵呵，好不容易从ie6怪圈逃出来了又遇到了各种各样的android，甚至ios也会抽风。你说ie6的bug嘛还算有迹可循，百度也有很多沉淀，移动终端的我遇到好多bug根本百度不了，测试那里一堆手机一个个测总有各种各样奇怪的问题，胜在有万能的google和stackoverflow——bugs</span><br></pre></td></tr></table></figure>
+<h3 id="如何判断"><a href="#如何判断" class="headerlink" title="如何判断"></a>如何判断</h3><ol>
+<li>断网情况<br>显示404或则错误页面的是html页面。</li>
+<li>页面布局(Android, 开发者选项中显示布局边界)</li>
+<li>复制文章的提示</li>
+<li>加载方式<br>如果在打开新页面导航栏下面有一条加载的线的话，这个页面就是H5页面<br><img src="http://img0.tuicool.com/bu6BBfZ.jpg!web" alt=""></li>
+<li>导航栏是否会有关闭的操作<br>如果APP顶部导航栏当中出现了关闭按钮或者有关闭的图标，那么当前的页面肯定的H5，原生的不会出现（除非设计开发者故意弄的）.<br>美团的、大众点评的APp、微信APP当加载h5过多的时候，左上角会出现关闭2字。</li>
+<li>判断页面 下拉刷新的时候（前提是要有下拉刷新的功能）<br>如果界面没有明显刷新现象的是原生的，如果有明显刷新现象（比如闪一下）的是H5页面（ios和android）。</li>
+<li>下拉页面的时候显示网址提供方的一定是H5<br><img src="http://img2.tuicool.com/VrQRNvJ.jpg!web" alt=""></li>
+</ol>
+<hr>
+<p>常用的判断方法：</p>
+<ul>
+<li>体验<br>一般加载很慢且滑动很不流畅，切换时预加载和模拟动画–css3动画非常的消耗性能</li>
+<li>剪切板事件<br>长按文字部分，进入选中之后，把选中的光标上下拖动。html 写出来的页面可以把很多图片、文字等一起选进去，原生的一般仅限于文字区域。</li>
+<li>抓包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">大家大谈H5APP时都是快速开发、低成本、多平台等等，但是它和很多APP开发方式相比有一个不同之处 —— `图文混合的排版`。正是这些复杂多变的CSS样式消耗了性能，但是它带来了排版的多样性，能够细致到每一个字宽行高和风格的像素级处理，才是H5的优异之处。</span><br><span class="line">很多人都说纯H5一次编写就能编译Android/iOS两种不同的APP，大大降低了成本。实际上这个观点本身就是值得怀疑的，如果你写过这类APP就能明白，它们既不省事，又存在很多BUG，调试时尤其繁琐。举一个很简单的例子，Android和iOS在返回上一页的处理方式上就有明显的区别，iOS的顶部bar在全屏下怎样处理，Android机器出现smart bar怎样处理页面的布局，调用底层硬件时怎样区分不同的场景等等，你需要写一个又一个机型和系统的判断，然后分别在Android和iOS下调试，最后你却发现这并没有卵用，累的要死却什么没学到，只有一堆不知道什么时候会过时的经验。</span><br></pre></td></tr></table></figure>
+<hr>
+<p>ThanksTo:</p>
+
+      
+    </div>
+
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ END ------</div>
+    
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/native/" rel="tag"><i class="fa fa-tag"></i> native</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Programming/coreimage-usage-part1-ciphotoeffect/" rel="next" title="Core Image 的简单使用 Part1 -- 图片滤镜 (以CIPhotoEffect..为例)">
+                <i class="fa fa-chevron-left"></i> Core Image 的简单使用 Part1 -- 图片滤镜 (以CIPhotoEffect..为例)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Programming/interaction-web-app-and-native-app/" rel="prev" title="WebAPP 与原生 APP 的交互设计区别">
+                WebAPP 与原生 APP 的交互设计区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar_kinoko.jpg"
+                alt="Kinoko" />
+            
+              <p class="site-author-name" itemprop="name">Kinoko</p>
+              <p class="site-description motion-element" itemprop="description">梦のような时间はいつしか过ぎて！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="aplayer" class="aplayer"></div>
+<script src="/js/src/custom/APlayer.min.js"></script>
+<script type="text/javascript">
+var ap = new APlayer({
+    element: document.getElementById('aplayer'),                       // Optional, player element
+    narrow: false,                                                     // Optional, narrow style
+    autoplay: false,                                                   // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                                       // Optional, pause other players when this player playing
+    theme: '#e6d0b2',                                                  // Optional, theme color, default: #b7daff
+    mode: 'random',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                                            // Optional, max height of play list
+    music: [{
+			title: '久遠寺有珠',
+      author: '深澤秀行',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%B7%B1%E6%BE%A4%E7%A7%80%E8%A1%8C%20-%20%E4%B9%85%E9%81%A0%E5%AF%BA%E6%9C%89%E7%8F%A0.mp3?Expires=1551720972&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=4MrWHatb4OvHN%2B1gG7Q27orxslc%3D',
+      pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThkn_1f0L71isgszDPXuTN5FOn9nHkAVzamZDRFPPBFRQNDj9D',
+		}, {
+			title: 'Million Years Ago',
+	    author: 'Adele',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/Adele%20-%20Million%20Years%20Ago.mp3?Expires=1551752694&OSSAccessKeyId=TMP.AQHR49O8If6Mo6sPjOBggewpca58KOfIoBt16OgNGh-UsuA6blWU9KAOuq6DADAtAhQ32X8SiyhxxSNBlsaSkInPTCKg4wIVAPQFHjs3HSWcjxYCtCkS5gw5_6jz&Signature=dyAiQGAr6eo2fjgJfq8omy%2FtFg0%3D',
+	    pic: 'https://t2.genius.com/unsafe/440x0/https%3A%2F%2Fimages.genius.com%2F6772172951a8192c8b3fd68f76c0ac13.594x595x1.png',
+		}, {
+      title: '被遗忘的时光',
+      author: '蔡琴',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E8%94%A1%E7%90%B4%20-%20%E8%A2%AB%E9%81%97%E5%BF%98%E7%9A%84%E6%97%B6%E5%85%89.mp3?Expires=1551721077&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=Oe43Ge7sotAk1pBtAOrspNyEa7U%3D',
+      pic: 'https://img1.doubanio.com/view/photo/albumcover/public/p2215785869.webp',
+    }, {
+      title: '琵琶语',
+      author: '林海',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%9E%97%E6%B5%B7-%E7%90%B5%E7%90%B6%E8%AF%AD.mp3?Expires=1551722533&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=DTGtlCMjw0DzfkO1dGwV4bHf8RY%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s4716282.jpg',
+    }, {
+      title: 'Lemon',
+      author: '米津玄師',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20-%20Lemon.ncm?Expires=1551720992&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=MLbfbDu2OfbHZkGwRcWHoinFFc0%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s29867205.jpg',
+    }]
+  });
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#优劣比较"><span class="nav-number">1.</span> <span class="nav-text">优劣比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判断"><span class="nav-number">2.</span> <span class="nav-text">如何判断</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kinoko</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/custom/custom.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'nHI8HW8EvJT3GQrEyk7jubVt-gzGzoHsz',
+        appKey: '1IpACOAFwl8bp3IXQHrdI0rl',
+        placeholder: 'Just go go',
+        avatar:'retro',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

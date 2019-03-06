@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-kinoko.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-kinoko.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-kinoko.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-kinoko.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ReactiveCocoa," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Version1234ReactiveCocoa 的版本演进&amp;lt;= v2.5 ：Objective-C   v3.x ：Swift 1.2   v4.x ：Swift 2.x 层次结构 四大核心组件:  信号源：RACStream 及其子类； 订阅者：RACSubscriber 的实现类及其子类； 调度器：RACScheduler 及其子类； 清洁工：RACDisposable 及其子类。">
+<meta name="keywords" content="ReactiveCocoa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactiveCocoa">
+<meta property="og:url" content="http://yoursite.com/Programming/reactivecocoa-source-code-architecture/index.html">
+<meta property="og:site_name" content="Natsume Reiko">
+<meta property="og:description" content="Version1234ReactiveCocoa 的版本演进&amp;lt;= v2.5 ：Objective-C   v3.x ：Swift 1.2   v4.x ：Swift 2.x 层次结构 四大核心组件:  信号源：RACStream 及其子类； 订阅者：RACSubscriber 的实现类及其子类； 调度器：RACScheduler 及其子类； 清洁工：RACDisposable 及其子类。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/ReactiveCocoa%20v2.5.png">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/RACStream.png">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/RACSubject.png">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/listmonster.png">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/subscribe.png">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/RACMulticastConnection.png">
+<meta property="og:updated_time" content="2019-03-06T07:08:53.577Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactiveCocoa">
+<meta name="twitter:description" content="Version1234ReactiveCocoa 的版本演进&amp;lt;= v2.5 ：Objective-C   v3.x ：Swift 1.2   v4.x ：Swift 2.x 层次结构 四大核心组件:  信号源：RACStream 及其子类； 订阅者：RACSubscriber 的实现类及其子类； 调度器：RACScheduler 及其子类； 清洁工：RACDisposable 及其子类。">
+<meta name="twitter:image" content="http://blog.leichunfeng.com/images/ReactiveCocoa%20v2.5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Programming/reactivecocoa-source-code-architecture/"/>
+
+
+
+
+
+  <title>ReactiveCocoa | Natsume Reiko</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="top-scroll-bar"></div>
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Natsume Reiko</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">A curious neko</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Programming/reactivecocoa-source-code-architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kinoko">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar_kinoko.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Natsume Reiko">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ReactiveCocoa</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-07T00:00:00+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Programming/reactivecocoa-source-code-architecture/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Programming/reactivecocoa-source-code-architecture/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  3.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Version"><a href="#Version" class="headerlink" title="Version"></a>Version</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactiveCocoa 的版本演进</span><br><span class="line">&lt;= v2.5 ：Objective-C</span><br><span class="line">   v3.x ：Swift 1.2</span><br><span class="line">   v4.x ：Swift 2.x</span><br></pre></td></tr></table></figure>
+<h3 id="层次结构"><a href="#层次结构" class="headerlink" title="层次结构"></a>层次结构</h3><p><img src="http://blog.leichunfeng.com/images/ReactiveCocoa%20v2.5.png" alt="层次结构"></p>
+<p>四大核心组件:</p>
+<ul>
+<li>信号源：<code>RACStream</code> 及其子类；</li>
+<li>订阅者：<code>RACSubscriber</code> 的实现类及其子类；</li>
+<li>调度器：<code>RACScheduler</code> 及其子类；</li>
+<li>清洁工：<code>RACDisposable</code> 及其子类。</li>
+</ul>
+<p>其中，信号源又是最核心的部分，其他组件都是围绕它运作的。</p>
+<p>对于一个应用来说，绝大部分的时间都是在等待某些事件的发生或响应某些状态的变化，比如用户的触摸事件、应用进入后台、网络请求成功刷新界面等等，而维护这些状态的变化，常常会使代码变得非常复杂，难以扩展。而 ReactiveCocoa 给出了一种非常好的解决方案，它使用信号来代表这些异步事件，提供了一种统一的方式来处理所有异步的行为，包括代理方法、block 回调、target-action 机制、通知、KVO 等</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 代理方法</span></span><br><span class="line">[[<span class="keyword">self</span></span><br><span class="line">    rac_signalForSelector:<span class="keyword">@selector</span>(webViewDidStartLoad:)</span><br><span class="line">    fromProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UIWebViewDelegate</span>)]</span></span><br><span class="line">    subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">        <span class="comment">// 实现 webViewDidStartLoad: 代理方法</span></span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// target-action</span></span><br><span class="line">[[<span class="keyword">self</span>.avatarButton</span><br><span class="line">    rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</span><br><span class="line">    subscribeNext:^(<span class="built_in">UIButton</span> *avatarButton) &#123;</span><br><span class="line">        <span class="comment">// avatarButton 被点击了</span></span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通知</span></span><br><span class="line">[[[<span class="built_in">NSNotificationCenter</span> defaultCenter]</span><br><span class="line">    rac_addObserverForName:kReachabilityChangedNotification object:<span class="literal">nil</span>]</span><br><span class="line">    subscribeNext:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">        <span class="comment">// 收到 kReachabilityChangedNotification 通知</span></span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// KVO</span></span><br><span class="line">[RACObserve(<span class="keyword">self</span>, username) subscribeNext:^(<span class="built_in">NSString</span> *username) &#123;</span><br><span class="line">    <span class="comment">// 用户名发生了变化</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>真正强大的地方在于我们可以对这些不同的信号进行任意地组合和链式操作，从最原始的输入 input 开始直至得到最终的输出 output 为止：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[[RACSignal</span><br><span class="line">    combineLatest:@[ RACObserve(<span class="keyword">self</span>, username), RACObserve(<span class="keyword">self</span>, password) ]</span><br><span class="line">    reduce:^(<span class="built_in">NSString</span> *username, <span class="built_in">NSString</span> *password) &#123;</span><br><span class="line">      <span class="keyword">return</span> @(username.length &gt; <span class="number">0</span> &amp;&amp; password.length &gt; <span class="number">0</span>);</span><br><span class="line">    &#125;]</span><br><span class="line">    distinctUntilChanged]</span><br><span class="line">    subscribeNext:^(<span class="built_in">NSNumber</span> *valid) &#123;</span><br><span class="line">        <span class="keyword">if</span> (valid.boolValue) &#123;</span><br><span class="line">            <span class="comment">// 用户名和密码合法，登录按钮可用</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 用户名或密码不合法，登录按钮不可用</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="信号源"><a href="#信号源" class="headerlink" title="信号源"></a>信号源</h3><p>在 ReactiveCocoa 中，信号源代表的是随着时间而改变的值流，这是对 ReactiveCocoa 最精准的概括，订阅者可以通过订阅信号源来获取这些值：</p>
+<blockquote>
+<p>Streams of values over time.</p>
+</blockquote>
+<h4 id="RACStream"><a href="#RACStream" class="headerlink" title="RACStream"></a>RACStream</h4><p><code>RACStream</code> 是 ReactiveCocoa 中最核心的类，代表的是任意的值流，它是整个 ReactiveCocoa 得以建立的基石。</p>
+<div align="center"><br><img src="http://blog.leichunfeng.com/images/RACStream.png" width="75%" height="75%" alt="RACStream继承结构图" align="center"><br></div>
+
+<p>事实上，RACStream 是一个<strong>抽象类</strong>，通常情况下，我们并不会去实例化它，而是直接使用它的两个子类 <strong>RACSignal</strong> 和 <strong>RACSequence</strong> 。</p>
+<h4 id="RACSignal"><a href="#RACSignal" class="headerlink" title="RACSignal"></a>RACSignal</h4><p><code>RACSignal</code> 代表的是未来将会被传送的值，它是一种 push-driven 的流。</p>
+<p>RACSignal 可以向订阅者发送三种不同类型的事件：</p>
+<ul>
+<li><code>next</code> ：RACSignal 通过 next 事件向订阅者传送新的值，并且这个值可以为 <code>nil</code> ；</li>
+<li><code>error</code> ：RACSignal 通过 error 事件向订阅者表明信号在正常结束前发生了错误；</li>
+<li><code>completed</code> ：RACSignal 通过 completed 事件向订阅者表明信号已经正常结束，不会再有后续的值传送给订阅者。</li>
+</ul>
+<p>注意，ReactiveCocoa 中的值流只包含正常的值，即通过 next 事件传送的值，并不包括 error 和 completed 事件，它们需要被特殊处理。通常情况下，一个信号的生命周期是由任意个 next 事件和一个 error 事件或一个 completed 事件组成的。</p>
+<p>RACSignal 并非只有一个类，事实上，它的一系列功能是通过<strong>类簇</strong>来实现的。<br>除去我们将在下节介绍的 <code>RACSubject</code> 及其子类外，RACSignal 还有五个用来实现不同功能的私有子类：</p>
+<ul>
+<li><code>RACEmptySignal</code>：空信号，用来实现 RACSignal 的 <code>+empty</code> 方法；</li>
+<li><code>RACReturnSignal</code>：一元信号，用来实现 RACSignal 的 <code>+return:</code> 方法；</li>
+<li><code>RACDynamicSignal</code>：动态信号，使用一个 block 来实现订阅行为，我们在使用 RACSignal 的 <code>+createSignal:</code> 方法时创建的就是该类的实例；</li>
+<li><code>RACErrorSignal</code>：错误信号，用来实现 RACSignal 的 <code>+error:</code> 方法；</li>
+<li><code>RACChannelTerminal</code>：通道终端，代表 RACChannel 的一个终端，用来实现双向绑定。</li>
+</ul>
+<p>对于 RACSignal 类簇来说，最核心的方法莫过于 <code>-subscribe:</code> 了，这个方法封装了订阅者对信号源的一次订阅过程，它是订阅者与信号源产生联系的唯一入口。因此，对于 RACSignal 的所有子类来说，这个方法的实现逻辑就代表了该子类的具体订阅行为，是区分不同子类的关键所在。同时，这也是为什么 RACSignal 中的 -subscribe: 方法是一个抽象方法，并且必须要让子类实现的原因：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribe:(<span class="keyword">id</span>&lt;RACSubscriber&gt;)subscriber &#123;</span><br><span class="line">  <span class="built_in">NSCAssert</span>(<span class="literal">NO</span>, <span class="string">@"This method must be overridden by subclasses"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="RACSubject"><a href="#RACSubject" class="headerlink" title="RACSubject"></a>RACSubject</h4><p><code>RACSubject</code> 代表的是可以手动控制的信号，我们可以把它看作是 RACSignal 的可变版本，就好比 NSMutableArray 是 NSArray 的可变版本一样。RACSubject 继承自 RACSignal ，所以它可以作为信号源被订阅者订阅，同时，它又实现了 RACSubscriber 协议，所以它也可以作为订阅者订阅其他信号源，这个就是 RACSubject 为什么可以手动控制的原因：</p>
+<div align="center"><br><img src="http://blog.leichunfeng.com/images/RACSubject.png" width="75%" height="75%" alt="RACSignal and RACSubject" align="center"><br></div>
+
+<p>RACSubject 也有三个用来实现不同功能的子类：</p>
+<ul>
+<li><code>RACGroupedSignal</code>：分组信号，用来实现 RACSignal 的分组功能；</li>
+<li><code>RACBehaviorSubject</code>：重演最后值的信号，当被订阅时，会向订阅者发送它最后接收到的值；</li>
+<li><code>RACReplaySubject</code>：重演信号，保存发送过的值，当被订阅时，会向订阅者重新发送这些值。</li>
+</ul>
+<p>RACSubject 的功能非常强大，但是太过灵活，也正是因为如此，我们只有在迫不得已的情况下才会使用它。一旦过度使用，就会使代码变得非常复杂，难以理解。</p>
+<h4 id="RACSequence"><a href="#RACSequence" class="headerlink" title="RACSequence"></a>RACSequence</h4><p><code>RACSequence</code> 代表的是<em>一个不可变的值的序列</em>，与 RACSignal 不同，它是 pull-driven 类型的流。从严格意义上讲，RACSequence 并不能算作是信号源，因为它并不能像 RACSignal 那样，可以被订阅者订阅，但是它与 RACSignal 之间可以非常方便地进行转换。</p>
+<p>从理论上说，一个 RACSequence 由两部分组成：</p>
+<ul>
+<li><code>head</code>：指的是序列中的第一个对象，如果序列为空，则为 nil ；</li>
+<li><code>tail</code>：指的是序列中除第一个对象外的其它所有对象，同样的，如果序列为空，则为 nil 。</li>
+</ul>
+<p>事实上，一个序列的 tail 仍然是一个序列，如果我们将序列看作是一条毛毛虫，那么 head 和 tail 可表示如下：</p>
+<div align="center"><br><img src="http://blog.leichunfeng.com/images/listmonster.png" width="50%" height="50%" alt="RACSequence's head and tail" align="center"><br></div>
+
+<p>同样的，一个序列的 tail 也可以看作是由 head 和 tail 组成，而这个新的 tail 又可以继续看作是由 head 和 tail 组成，这个过程可以一直进行下去。而这个就是 RACSequence 得以建立的理论基础，所以一个 RACSequence 子类的最小实现就是 head 和 tail</p>
+<p>总的来说，RACSequence 存在的最大意义就是为了简化 Objective-C 中的集合操作：</p>
+<blockquote>
+<p>Simplifying Collection Transformations: Higher-order functions like map, filter, fold/reduce are sorely missing from Foundation.</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通常实现</span></span><br><span class="line"><span class="built_in">NSMutableArray</span> *results = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *str <span class="keyword">in</span> strings) &#123;</span><br><span class="line">    <span class="keyword">if</span> (str.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSString</span> *newString = [str stringByAppendingString:<span class="string">@"foobar"</span>];</span><br><span class="line">    [results addObject:newString];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用RACSequence实现</span></span><br><span class="line">RACSequence *results = [[strings.rac_sequence</span><br><span class="line">    filter:^ <span class="built_in">BOOL</span> (<span class="built_in">NSString</span> *str) &#123;</span><br><span class="line">        <span class="keyword">return</span> str.length &gt;= <span class="number">2</span>;</span><br><span class="line">    &#125;]</span><br><span class="line">    map:^(<span class="built_in">NSString</span> *str) &#123;</span><br><span class="line">        <span class="keyword">return</span> [str stringByAppendingString:<span class="string">@"foobar"</span>];</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<p>因此，我们可以非常方便地使用 RACSequence 来实现集合的<strong>链式操作</strong>，直到得到你想要的最终结果为止。除此之外，使用 RACSequence 的另外一个主要好处是，RACSequence 中包含的值在默认情况下是<strong>懒计算</strong>的，即只有在真正用到的时候才会被计算，并且只会计算一次。也就是说，如果我们只用到了一个 RACSequence 中的部分值的时候，它就在不知不觉中提高了我们应用的性能。</p>
+<p>同样的，RACSequence 的一系列功能也是通过<strong>类簇</strong>来实现的，它共有九个用来实现不同功能的私有子类：</p>
+<ul>
+<li><code>RACUnarySequence</code>：一元序列，用来实现 RACSequence 的 <code>+return:</code> 方法；</li>
+<li><code>RACIndexSetSequence</code>：用来遍历索引集；</li>
+<li><code>RACEmptySequence</code>：空序列，用来实现 RACSequence 的 <code>+empty:</code> 方法；</li>
+<li><code>RACDynamicSequence</code>：动态序列，使用 blocks 来动态地实现一个序列；</li>
+<li><code>RACSignalSequence</code>：用来遍历信号中的值；</li>
+<li><code>RACArraySequence</code>：用来遍历数组中的元素；</li>
+<li><code>RACEagerSequence</code>：非懒计算的序列，在初始化时立即计算所有的值；</li>
+<li><code>RACStringSequence</code>：用来遍历字符串中的字符；</li>
+<li><code>RACTupleSequence</code>：用来遍历元组中的元素。</li>
+</ul>
+<p>RACSequence 为类簇提供了统一的对外接口，对于使用它的客户端代码来说，完全不需要知道私有子类的存在，很好地隐藏了实现细节。另外，值得一提的是，RACSequence 实现了快速枚举的协议 <code>NSFastEnumeration</code></p>
+<h3 id="订阅者"><a href="#订阅者" class="headerlink" title="订阅者"></a>订阅者</h3><p>为了获取信号源中的值，我们需要对信号源进行订阅。在 ReactiveCocoa 中，订阅者是一个抽象的概念，所有实现了 <code>RACSubscriber</code> 协议的类都可以作为信号源的订阅者。</p>
+<h4 id="RACSubscriber"><a href="#RACSubscriber" class="headerlink" title="RACSubscriber"></a>RACSubscriber</h4><p>四个方法必须实现的方法中, <code>-sendNext:</code> 、<code>-sendError:</code> 和 <code>-sendCompleted` 分别用来从 RACSignal 接收 next 、error 和 completed 事件，而</code>-didSubscribeWithDisposable:<code></code> 则用来接收代表某次订阅的 disposable 对象。</p>
+<p>订阅者对信号源的一次订阅过程可以抽象为：通过 RACSignal 的 -subscribe: 方法传入一个订阅者，并最终返回一个 <code>RACDisposable</code> 对象的过程：</p>
+<div align="center"><br><img src="http://blog.leichunfeng.com/images/subscribe.png" width="75%" height="75%" alt="订阅者对信号源的一次订阅过程" align="center"><br></div>
+
+<p>注意：在 ReactiveCocoa 中并没有专门的类 <code>RACSubscription</code> 来代表一次订阅，而间接地使用 <code>RACDisposable</code> 来充当这一角色。因此，一个 RACDisposable 对象就代表着一次订阅，并且我们可以用它来取消这次订阅.</p>
+<p>除了 <code>RACSignal</code> 的子类外，还有两个实现了 RACSubscriber 协议的类，<code>RACSubscriver</code> 和 <code>RACPassthroughSubscriber</code>。  </p>
+<p>其中，RACSubscriber 类的名字与 RACSubscriber 协议的名字相同，这跟 Objective-C 中的 NSObject 类的名字与 NSObject 协议的名字相同是一样一样的，除了名字相同外，然并卵。通常来说，RACSubscriber 类充当的角色就是信号源的真正订阅者，它老老实实地实现了 RACSubscriber 协议。</p>
+<p>既然 RACSubscriber 类就是真正的订阅者，那么 RACPassthroughSubscriber 类又是干嘛用的呢？原来，在 ReactiveCocoa 中，一个订阅者是可以订阅多个信号源的，也就是说它会拥有多个 RACDisposable 对象，并且它可以随时取消其中任何一个订阅。为了实现这个功能，ReactiveCocoa 就引入了 RACPassthroughSubscriber 类，它是 RACSubscriber 类的一个装饰器，封装了一个真正的订阅者 RACSubscriber 对象，它负责转发所有事件给这个真正的订阅者，而当此次订阅被取消时，它就会停止转发：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)sendNext:(<span class="keyword">id</span>)value &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span>.disposable.disposed) <span class="keyword">return</span>;</span><br><span class="line">  [<span class="keyword">self</span>.innerSubscriber sendNext:value];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)sendError:(<span class="built_in">NSError</span> *)error &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span>.disposable.disposed) <span class="keyword">return</span>;</span><br><span class="line">  [<span class="keyword">self</span>.innerSubscriber sendError:error];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)sendCompleted &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span>.disposable.disposed) <span class="keyword">return</span>;</span><br><span class="line">  [<span class="keyword">self</span>.innerSubscriber sendCompleted];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>事实上，在 ReactiveCocoa 中，我们倾向于隐藏订阅者，因为外界根本不需要知道订阅者的存在，这是内部的实现细节。这样做的主要目的是进一步简化信号源的订阅逻辑，客户端代码只需要关心它所需要的值就可以了，根本不需要关心内部的订阅过程。</p>
+<h4 id="RACMulticastConnection"><a href="#RACMulticastConnection" class="headerlink" title="RACMulticastConnection"></a>RACMulticastConnection</h4><p>通常来说，我们在订阅一个信号源的过程中可能会产生副作用或者消耗比较大的资源，比如修改全局变量、发送网络请求等。这个时候，我们往往需要让多个订阅者之间共享一次订阅</p>
+<p><code>RACMulticastConnection</code> 通过一个标志 <code>_hasConnected</code> 来保证只对 sourceSignal 订阅一次，然后对外暴露一个 RACSubject 类型的 signal 供外部订阅者订阅。这样一来，不管外部订阅者对 signal 订阅多少次，我们对 sourceSignal 的订阅至多只会有一次：</p>
+<div align="center"><br><img src="http://blog.leichunfeng.com/images/RACMulticastConnection.png" width="75%" height="75%" alt="RACMulticastConnection" align="center"><br></div>
+
+<h3 id="调度器"><a href="#调度器" class="headerlink" title="调度器"></a>调度器</h3><p>有了信号源和订阅者，我们还需要由调度器来统一调度订阅者订阅信号源的过程中所涉及到的任务，这样才能保证所有的任务都能够合理有序地执行。</p>
+<h4 id="RACScheduler"><a href="#RACScheduler" class="headerlink" title="RACScheduler"></a>RACScheduler</h4><p><code>RACScheduler</code> 在 ReactiveCocoa 中就是扮演着调度器的角色，本质上，它就是用 <strong>GCD 的串行队列</strong> 来实现的，并且支持取消操作。是的，在 ReactiveCocoa 中，并没有使用到 NSOperationQueue 和 NSRunloop 等技术，RACScheduler 也只是对 GCD 的简单封装而已。</p>
+<p>同样的，RACScheduler 的一系列功能也是通过<strong>类簇</strong>来实现的，除了用来测试的子类外，总共还有四个私有子类：</p>
+<ul>
+<li><code>RACImmediateScheduler</code>：立即执行调度的任务，这是唯一一个支持<strong>同步</strong>执行的调度器；</li>
+<li><code>RACQueueScheduler</code>：一个抽象的队列调度器，在一个 GCD 串行列队中异步调度所有任务；</li>
+<li><code>RACTargetQueueScheduler</code>：继承自 RACQueueScheduler ，在一个以一个任意的 GCD 队列为 target 的串行队列中异步调度所有任务；</li>
+<li><code>RACSubscriptionScheduler</code>：一个只用来调度订阅的调度器。</li>
+</ul>
+<p>值得一提的是，在 RACScheduler 中有一个非常特殊的方法：<code>- (RACDisposable *)scheduleRecursiveBlock:(RACSchedulerRecursiveBlock)recursiveBlock;</code><br>这个方法的作用非常有意思，它可以将递归调用转换成迭代调用，这样做的目的是为了解决深层次的递归调用可能会带来的堆栈溢出问题。</p>
+<h3 id="清洁工"><a href="#清洁工" class="headerlink" title="清洁工"></a>清洁工</h3><p>在订阅者订阅信号源的过程中，可能会产生副作用或者消耗一定的资源，所以当我们在取消订阅或者完成订阅时，我们就需要做一些资源回收和垃圾清理的工作。</p>
+<h4 id="RACDisposable"><a href="#RACDisposable" class="headerlink" title="RACDisposable"></a>RACDisposable</h4><p>在订阅者订阅信号源的过程中，可能会产生副作用或者消耗一定的资源，所以当我们在取消订阅或者完成订阅时，我们就需要做一些资源回收和垃圾清理的工作。</p>
+<p>RACDisposable</p>
+<p><code>RACDisposable</code> 在 ReactiveCocoa 中就充当着清洁工的角色，它封装了取消和清理一次订阅所必需的工作。它有一个核心的方法 <code>-dispose</code> ，调用这个方法就会执行相应的清理工作，这有点类似于 NSObject 的 -dealloc 方法。RACDisposable 总共有四个子类：</p>
+<ul>
+<li><code>RACSerialDisposable</code>：作为 disposable 的容器使用，可以包含一个 disposable 对象，并且允许将这个 disposable 对象通过原子操作交换出来；</li>
+<li><code>RACKVOTrampoline</code>：代表一次 KVO 观察，并且可以用来停止观察；</li>
+<li><code>RACCompoundDisposable</code>：跟 RACSerialDisposable 一样，RACCompoundDisposable 也是作为 disposable 的容器使用。不同的是，它可以包含多个 disposable 对象，并且支持手动添加和移除 disposable 对象，有点类似于可变数组 NSMutableArray 。而当一个 RACCompoundDisposable 对象被 disposed 时，它会调用其所包含的所有 disposable 对象的 -dispose 方法，有点类似于 autoreleasepool 的作用;</li>
+<li><code>RACScopedDisposable</code>：当它被 dealloc 的时候调用本身的 -dispose 方法。</li>
+</ul>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>通过介绍 ReactiveCocoa 四大核心组件，对它的架构有了宏观上的认识。它建立于 Monad 的概念之上，然后围绕其搭建了一系列完整的配套组件，它们共同支撑了 ReactiveCocoa 的强大功能。尽管，ReactiveCocoa 是一个重型的函数式响应式框架，但是它并不会对我们现有的代码构成侵略性，我们完全可以在一个单独的类中使用它，哪怕只是简单的一行代码，也是没有问题的。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/blob/v2.5/Documentation/DesignGuidelines.md#avoid-using-subjects-when-possible" target="_blank" rel="noopener">ReactiveCocoa Design Guidelines</a></li>
+<li><a href="http://blog.leichunfeng.com/blog/2015/12/25/reactivecocoa-v2-dot-5-yuan-ma-jie-xi-zhi-jia-gou-zong-lan/" target="_blank" rel="noopener">ReactiveCocoa v2.5 源码解析之架构总览, by 雷纯锋</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ END ------</div>
+    
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ReactiveCocoa/" rel="tag"><i class="fa fa-tag"></i> ReactiveCocoa</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Programming/reactive-programming/" rel="next" title="响应式编程 (Reactive Programming)">
+                <i class="fa fa-chevron-left"></i> 响应式编程 (Reactive Programming)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Programming/mvc-mvvm-reactivecocoa/" rel="prev" title="MVC, MVVM & ReactiveCocoa">
+                MVC, MVVM & ReactiveCocoa <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar_kinoko.jpg"
+                alt="Kinoko" />
+            
+              <p class="site-author-name" itemprop="name">Kinoko</p>
+              <p class="site-description motion-element" itemprop="description">梦のような时间はいつしか过ぎて！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="aplayer" class="aplayer"></div>
+<script src="/js/src/custom/APlayer.min.js"></script>
+<script type="text/javascript">
+var ap = new APlayer({
+    element: document.getElementById('aplayer'),                       // Optional, player element
+    narrow: false,                                                     // Optional, narrow style
+    autoplay: false,                                                   // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                                       // Optional, pause other players when this player playing
+    theme: '#e6d0b2',                                                  // Optional, theme color, default: #b7daff
+    mode: 'random',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                                            // Optional, max height of play list
+    music: [{
+			title: '久遠寺有珠',
+      author: '深澤秀行',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%B7%B1%E6%BE%A4%E7%A7%80%E8%A1%8C%20-%20%E4%B9%85%E9%81%A0%E5%AF%BA%E6%9C%89%E7%8F%A0.mp3?Expires=1551720972&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=4MrWHatb4OvHN%2B1gG7Q27orxslc%3D',
+      pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThkn_1f0L71isgszDPXuTN5FOn9nHkAVzamZDRFPPBFRQNDj9D',
+		}, {
+			title: 'Million Years Ago',
+	    author: 'Adele',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/Adele%20-%20Million%20Years%20Ago.mp3?Expires=1551752694&OSSAccessKeyId=TMP.AQHR49O8If6Mo6sPjOBggewpca58KOfIoBt16OgNGh-UsuA6blWU9KAOuq6DADAtAhQ32X8SiyhxxSNBlsaSkInPTCKg4wIVAPQFHjs3HSWcjxYCtCkS5gw5_6jz&Signature=dyAiQGAr6eo2fjgJfq8omy%2FtFg0%3D',
+	    pic: 'https://t2.genius.com/unsafe/440x0/https%3A%2F%2Fimages.genius.com%2F6772172951a8192c8b3fd68f76c0ac13.594x595x1.png',
+		}, {
+      title: '被遗忘的时光',
+      author: '蔡琴',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E8%94%A1%E7%90%B4%20-%20%E8%A2%AB%E9%81%97%E5%BF%98%E7%9A%84%E6%97%B6%E5%85%89.mp3?Expires=1551721077&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=Oe43Ge7sotAk1pBtAOrspNyEa7U%3D',
+      pic: 'https://img1.doubanio.com/view/photo/albumcover/public/p2215785869.webp',
+    }, {
+      title: '琵琶语',
+      author: '林海',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%9E%97%E6%B5%B7-%E7%90%B5%E7%90%B6%E8%AF%AD.mp3?Expires=1551722533&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=DTGtlCMjw0DzfkO1dGwV4bHf8RY%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s4716282.jpg',
+    }, {
+      title: 'Lemon',
+      author: '米津玄師',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20-%20Lemon.ncm?Expires=1551720992&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=MLbfbDu2OfbHZkGwRcWHoinFFc0%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s29867205.jpg',
+    }]
+  });
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Version"><span class="nav-number">1.</span> <span class="nav-text">Version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#层次结构"><span class="nav-number">2.</span> <span class="nav-text">层次结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号源"><span class="nav-number">3.</span> <span class="nav-text">信号源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RACStream"><span class="nav-number">3.1.</span> <span class="nav-text">RACStream</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RACSignal"><span class="nav-number">3.2.</span> <span class="nav-text">RACSignal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RACSubject"><span class="nav-number">3.3.</span> <span class="nav-text">RACSubject</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RACSequence"><span class="nav-number">3.4.</span> <span class="nav-text">RACSequence</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#订阅者"><span class="nav-number">4.</span> <span class="nav-text">订阅者</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RACSubscriber"><span class="nav-number">4.1.</span> <span class="nav-text">RACSubscriber</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RACMulticastConnection"><span class="nav-number">4.2.</span> <span class="nav-text">RACMulticastConnection</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调度器"><span class="nav-number">5.</span> <span class="nav-text">调度器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RACScheduler"><span class="nav-number">5.1.</span> <span class="nav-text">RACScheduler</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清洁工"><span class="nav-number">6.</span> <span class="nav-text">清洁工</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RACDisposable"><span class="nav-number">6.1.</span> <span class="nav-text">RACDisposable</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">7.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kinoko</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/custom/custom.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'nHI8HW8EvJT3GQrEyk7jubVt-gzGzoHsz',
+        appKey: '1IpACOAFwl8bp3IXQHrdI0rl',
+        placeholder: 'Just go go',
+        avatar:'retro',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

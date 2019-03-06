@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-kinoko.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-kinoko.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-kinoko.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-kinoko.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="layout," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="(only IBOutlet this time)  自适应、适配、布局这几个关键词一直伴随着iOS开发，从以前的单一尺寸屏幕，到现在的多尺寸屏幕，Apple一直致力于让开发人员尽可能少在这些事上耗费过多的精力，所以Apple在2012年推出了Auto Layout特性，2014年又推出了Adaptive Layout、Size Classes，2015年iOS 9中又增加了新的控件：UIStac">
+<meta name="keywords" content="layout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIStackView to resize&#x2F;layout">
+<meta property="og:url" content="http://yoursite.com/Programming/uistackview-layout-iboutlet/index.html">
+<meta property="og:site_name" content="Natsume Reiko">
+<meta property="og:description" content="(only IBOutlet this time)  自适应、适配、布局这几个关键词一直伴随着iOS开发，从以前的单一尺寸屏幕，到现在的多尺寸屏幕，Apple一直致力于让开发人员尽可能少在这些事上耗费过多的精力，所以Apple在2012年推出了Auto Layout特性，2014年又推出了Adaptive Layout、Size Classes，2015年iOS 9中又增加了新的控件：UIStac">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://docs-assets.developer.apple.com/published/82128953f6/uistack_hero_2x_04e50947-5aa0-4403-825b-26ba4c1662bd.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1964880-77a38a7547618a9c.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1964880-65a52071be050395.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1964880-ff1467b0cc6efd0d.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1964880-6d9d54ef054c3572.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/37334-581e8ce74a510501.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/format/jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/37334-fde47d3da6775366.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/format/jpg">
+<meta property="og:updated_time" content="2019-01-29T10:57:04.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIStackView to resize&#x2F;layout">
+<meta name="twitter:description" content="(only IBOutlet this time)  自适应、适配、布局这几个关键词一直伴随着iOS开发，从以前的单一尺寸屏幕，到现在的多尺寸屏幕，Apple一直致力于让开发人员尽可能少在这些事上耗费过多的精力，所以Apple在2012年推出了Auto Layout特性，2014年又推出了Adaptive Layout、Size Classes，2015年iOS 9中又增加了新的控件：UIStac">
+<meta name="twitter:image" content="https://docs-assets.developer.apple.com/published/82128953f6/uistack_hero_2x_04e50947-5aa0-4403-825b-26ba4c1662bd.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Programming/uistackview-layout-iboutlet/"/>
+
+
+
+
+
+  <title>UIStackView to resize/layout | Natsume Reiko</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="top-scroll-bar"></div>
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Natsume Reiko</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">A curious neko</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Programming/uistackview-layout-iboutlet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kinoko">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar_kinoko.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Natsume Reiko">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UIStackView to resize/layout</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-30T00:00:00+08:00">
+                2016-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Programming/uistackview-layout-iboutlet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Programming/uistackview-layout-iboutlet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>(only IBOutlet this time)</p>
+<blockquote>
+<p>自适应、适配、布局这几个关键词一直伴随着iOS开发，从以前的单一尺寸屏幕，到现在的多尺寸屏幕，Apple一直致力于让开发人员尽可能少在这些事上耗费过多的精力，所以Apple在2012年推出了Auto Layout特性，2014年又推出了Adaptive Layout、Size Classes，2015年iOS 9中又增加了新的控件：UIStackView。这些无一不是我们开发者做适配的利器。</p>
+</blockquote>
+<h4 id="UIStackView简介"><a href="#UIStackView简介" class="headerlink" title="UIStackView简介"></a>UIStackView简介</h4><p><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIStackView_Class_Reference/index.html" target="_blank" rel="noopener">UIStackView Class Reference</a> <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIStackView_Class_Reference/index.html#//apple_ref/occ/instp/UIStackView/distribution" target="_blank" rel="noopener">1</a></p>
+<blockquote>
+<p>The UIStackView class provides a streamlined interface for laying out a collection of views in either a column or a row. Stack views let you leverage the power of Auto Layout, creating user interfaces that can dynamically adapt to the device’s orientation, screen size, and any changes in the available space. The stack view manages the layout of all the views in its arrangedSubviews property. These views are arranged along the stack view’s axis, based on their order in the arrangedSubviews array. The exact layout varies depending on the stack view’s axis, distribution, alignment, spacing, and other properties.</p>
+</blockquote>
+<div align="center"><br><img src="https://docs-assets.developer.apple.com/published/82128953f6/uistack_hero_2x_04e50947-5aa0-4403-825b-26ba4c1662bd.png" width="50%" height="50%" alt="properties" align="center"><br></div>
+
+<p>UIStackView 提供了一个高效的接口用于平铺一行或一列的视图组合。对于嵌入到 StackView 的视图，你不用再添加自动布局的约束了。Stack View 管理这些子视图的布局，并帮你自动布局约束。</p>
+<p>StackView 其实一个视图容器，不过它会对它的子视图根据一定规则自动布局，将子视图按栈的排列方式进行布局。</p>
+<h4 id="UIStackView主要的属性"><a href="#UIStackView主要的属性" class="headerlink" title="UIStackView主要的属性"></a>UIStackView主要的属性</h4><p>一般情况下，我们不需要对 stackView.subviews 做任何约束，只需要通过对 stackView 的 axis, distribution, alignment, spacing 属性进行修改 <a href="http://www.devtalking.com/articles/uistackview/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">2</a></p>
+<ul>
+<li><p>Axis 方向<br>StackView 有水平和垂直两个方向的布局模式<br><img src="http://upload-images.jianshu.io/upload_images/1964880-77a38a7547618a9c.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="axis"></p>
+</li>
+<li><p>Spacing 间隔<br>StackView 可以设置子视图之间的间隔</p>
+</li>
+<li><p>Alignment 对齐方式<br>StackView 可以设置子视图的对齐方式（水平方向和垂直方向的该属性值有所区别）：<br><img src="http://upload-images.jianshu.io/upload_images/1964880-65a52071be050395.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="alignment"></p>
+<ul>
+<li>Fill：子视图填充 StackView。</li>
+<li>Leading：靠左对齐。</li>
+<li>Trailing：靠右对齐。</li>
+<li>Center：子视图以中线为基准对齐。</li>
+<li>Top：靠顶部对齐。</li>
+<li>Bottom：靠底部对齐。</li>
+<li>First Baseline：按照第一个子视图中文字的第一行对齐，同时保证高度最大的子视图底部对齐（只在 axis 为水平方向有效）。</li>
+<li>Last Baseline：按照最后一个子视图中文字的最后一行对齐，同时保证高度最大的子视图顶部对齐（只在 axis 为水平方向有效）。</li>
+</ul>
+</li>
+<li><p>Distribution 分布方式<br>StackView 可以设置子视图的分布方式：<br><img src="http://upload-images.jianshu.io/upload_images/1964880-ff1467b0cc6efd0d.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>Fill：默认分布方式。</li>
+<li>Fill Equally：子视图的高度或宽度保持一致。</li>
+<li>Fill：Proportionally：按<strong>比例</strong>分布。</li>
+<li>Equal Spacing：子视图保持同等间隔。</li>
+<li>Equal Centering：每个子视图中心线之间保持一致。</li>
+</ul>
+</li>
+<li><p>baselineRelativeArrangement<br>determines whether the vertical spacing between views is measured from the baselines.<br>决定了其视图间的垂直间隙是否根据基线测量得到，选中 Baseline Relative 将根据 subview 的基线调整垂直间距。<a href="http://www.cnblogs.com/bokeyuanlibin/p/5693575.html" target="_blank" rel="noopener">3</a></p>
+</li>
+<li><p>layoutMarginsRelativeArrangement<br>determines whether the stack view lays out its arranged views relative to its layout margins.<br>决定了 stack 视图平铺其管理的视图时是否要参照它的布局边距，选中 Layout Margins Relative 将相对于标准边界空白来调整 subview 位置。</p>
+</li>
+</ul>
+<h4 id="UIStackView的嵌套"><a href="#UIStackView的嵌套" class="headerlink" title="UIStackView的嵌套"></a>UIStackView的嵌套</h4><blockquote>
+<p>Typically, you use a single stack view to lay out a small number of items. You can build more complex view hierarchies by nesting stack views inside other stack views.</p>
+</blockquote>
+<p>既然 UIStackView 继承了 UIView，那么 UIStackView 也可以看做是一个 UIView 而被包含在 UIStackView 内，亦及嵌套使用。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1964880-6d9d54ef054c3572.png!web?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UIStackView 的嵌套"></p>
+<h4 id="UIStackView-与-UICollectionView-的选取"><a href="#UIStackView-与-UICollectionView-的选取" class="headerlink" title="UIStackView 与 UICollectionView 的选取"></a>UIStackView 与 UICollectionView 的选取</h4><p>UIStackView 实现有对齐要求的视图布局非常非常得简单，而使用 UICollectionView 和 UITableView 来实现，相对而言就比较麻烦。<br>相比于 collectionView 而言，stackView 更加小巧灵活，然而想要完成更精致的效果，最终还是得使用 UICollectionView。</p>
+<h6 id="注意！"><a href="#注意！" class="headerlink" title="注意！"></a>注意！</h6><blockquote>
+<p>Be careful to avoid introducing conflicts when adding constraints to views inside a stack view. As a general rule of thumb, if a view’s size defaults back to its intrinsic content size for a given dimension, you can safely add a constraint for that dimension.</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> Fill 的方向垂直于Axis</span><br><span class="line"><span class="number">2.</span> 有时可能排版较乱，除了设置属性来布局之外，我们还可以手动添加属性，且<span class="string">"手动添加的享有更高的优先级"</span>。</span><br><span class="line">(Apple 官方建议开发人员应优先采用 StackView 来设计用户界面，然后再根据实际需求来添加约束)</span><br></pre></td></tr></table></figure>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><blockquote>
+<p>The UIStackView is a nonrendering subclass of UIView; that is, it does not provide any user interface of its own. Instead, it just manages the position and size of its arranged views. As a result, some properties (like backgroundColor) have no effect on the stack view. Similarly, you cannot override layerClass, drawRect:, or drawLayer:inContext:.</p>
+</blockquote>
+<p>UIStackView 不是万能的，但它可以在布局和自适应方面给开发者带来便利，在恰当的情形下使用 StackView 可以事半功倍。而且因为 UIStackView 是 UIView 的子类，所以也可以将动画效果作用于 UIStackView 上，在方便布局之余还能提高用户体验。</p>
+<blockquote>
+<p>隔桌安卓小伙伴不满了，这不就是<code>LinearLayout</code>吗？<br>额 -_-!</p>
+</blockquote>
+<hr>
+<p>ThanksTo:</p>
+<p>[1] UIStackView Class Reference –<br><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIStackView_Class_Reference/index.html#//apple_ref/occ/instp/UIStackView/distribution" target="_blank" rel="noopener">https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIStackView_Class_Reference/index.html#//apple_ref/occ/instp/UIStackView/distribution</a><br>[2] UIStackView 小窥 –<br><a href="http://www.devtalking.com/articles/uistackview/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">http://www.devtalking.com/articles/uistackview/?utm_source=tuicool&amp;utm_medium=referral</a><br>[3] 简便的自动布局，对 UIStackView 的个人理解！ –<br><a href="http://www.cnblogs.com/bokeyuanlibin/p/5693575.html" target="_blank" rel="noopener">http://www.cnblogs.com/bokeyuanlibin/p/5693575.html</a></p>
+<hr>
+<p>使用 UIStackView 可以很方便快捷的设置以下布局：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/37334-581e8ce74a510501.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/format/jpg" alt="lineLayout"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/37334-fde47d3da6775366.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240/format/jpg" alt="example"></p>
+<p>// 纯代码的下次再做</p>
+
+      
+    </div>
+
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ END ------</div>
+    
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/layout/" rel="tag"><i class="fa fa-tag"></i> layout</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Others/color-model-hsl-hsb/" rel="next" title="色彩模型之HSL(HSB)">
+                <i class="fa fa-chevron-left"></i> 色彩模型之HSL(HSB)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Tool/atom-shortcut/" rel="prev" title="Atom shortcut">
+                Atom shortcut <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar_kinoko.jpg"
+                alt="Kinoko" />
+            
+              <p class="site-author-name" itemprop="name">Kinoko</p>
+              <p class="site-description motion-element" itemprop="description">梦のような时间はいつしか过ぎて！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="aplayer" class="aplayer"></div>
+<script src="/js/src/custom/APlayer.min.js"></script>
+<script type="text/javascript">
+var ap = new APlayer({
+    element: document.getElementById('aplayer'),                       // Optional, player element
+    narrow: false,                                                     // Optional, narrow style
+    autoplay: false,                                                   // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                                       // Optional, pause other players when this player playing
+    theme: '#e6d0b2',                                                  // Optional, theme color, default: #b7daff
+    mode: 'random',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                                            // Optional, max height of play list
+    music: [{
+			title: '久遠寺有珠',
+      author: '深澤秀行',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%B7%B1%E6%BE%A4%E7%A7%80%E8%A1%8C%20-%20%E4%B9%85%E9%81%A0%E5%AF%BA%E6%9C%89%E7%8F%A0.mp3?Expires=1551720972&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=4MrWHatb4OvHN%2B1gG7Q27orxslc%3D',
+      pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThkn_1f0L71isgszDPXuTN5FOn9nHkAVzamZDRFPPBFRQNDj9D',
+		}, {
+			title: 'Million Years Ago',
+	    author: 'Adele',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/Adele%20-%20Million%20Years%20Ago.mp3?Expires=1551752694&OSSAccessKeyId=TMP.AQHR49O8If6Mo6sPjOBggewpca58KOfIoBt16OgNGh-UsuA6blWU9KAOuq6DADAtAhQ32X8SiyhxxSNBlsaSkInPTCKg4wIVAPQFHjs3HSWcjxYCtCkS5gw5_6jz&Signature=dyAiQGAr6eo2fjgJfq8omy%2FtFg0%3D',
+	    pic: 'https://t2.genius.com/unsafe/440x0/https%3A%2F%2Fimages.genius.com%2F6772172951a8192c8b3fd68f76c0ac13.594x595x1.png',
+		}, {
+      title: '被遗忘的时光',
+      author: '蔡琴',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E8%94%A1%E7%90%B4%20-%20%E8%A2%AB%E9%81%97%E5%BF%98%E7%9A%84%E6%97%B6%E5%85%89.mp3?Expires=1551721077&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=Oe43Ge7sotAk1pBtAOrspNyEa7U%3D',
+      pic: 'https://img1.doubanio.com/view/photo/albumcover/public/p2215785869.webp',
+    }, {
+      title: '琵琶语',
+      author: '林海',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E6%9E%97%E6%B5%B7-%E7%90%B5%E7%90%B6%E8%AF%AD.mp3?Expires=1551722533&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=DTGtlCMjw0DzfkO1dGwV4bHf8RY%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s4716282.jpg',
+    }, {
+      title: 'Lemon',
+      author: '米津玄師',
+      url: 'http://withhebing.oss-cn-shanghai.aliyuncs.com/music/%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB%20-%20Lemon.ncm?Expires=1551720992&OSSAccessKeyId=TMP.AQHn3W-G7FAh-Ls5De2eW_dSjjUr-C4_6OjvriS5yGA8EpA2GYQlOFfRIdyYADAtAhRhSdCbf9U78sVlhjGmeu2ex0LPVwIVAMUxBl_KrOp3wTU3SrqVoJh36ved&Signature=MLbfbDu2OfbHZkGwRcWHoinFFc0%3D',
+      pic: 'https://img3.doubanio.com/view/subject/m/public/s29867205.jpg',
+    }]
+  });
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#UIStackView简介"><span class="nav-number">1.</span> <span class="nav-text">UIStackView简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIStackView主要的属性"><span class="nav-number">2.</span> <span class="nav-text">UIStackView主要的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIStackView的嵌套"><span class="nav-number">3.</span> <span class="nav-text">UIStackView的嵌套</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIStackView-与-UICollectionView-的选取"><span class="nav-number">4.</span> <span class="nav-text">UIStackView 与 UICollectionView 的选取</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#注意！"><span class="nav-number">4.0.1.</span> <span class="nav-text">注意！</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后记"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kinoko</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/custom/custom.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'nHI8HW8EvJT3GQrEyk7jubVt-gzGzoHsz',
+        appKey: '1IpACOAFwl8bp3IXQHrdI0rl',
+        placeholder: 'Just go go',
+        avatar:'retro',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
