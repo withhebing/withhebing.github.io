@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[NEKO#ΦωΦ 的错误打开方式]]></title>
+    <url>%2FMurmur%2FcytusII-neko-is-coming%2F</url>
+    <content type="text"><![CDATA[CytusII NEKO 刚升级 Lv25，Æsir 电话，一首好听的新曲子，网络似乎不太稳定，全都是 NEKO。。。。 \(ΦωΦ)/]]></content>
+      <categories>
+        <category>Murmur</category>
+      </categories>
+      <tags>
+        <tag>game</tag>
+        <tag>Cytus</tag>
+        <tag>NEKO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[色彩的心情]]></title>
     <url>%2FDrawing%2Fcolor-psychology%2F</url>
     <content type="text"><![CDATA[背景不同文化中的色彩心理有所差异，互联网时代渐渐全球化。 常见色彩心理 黑色：品质、权威、稳重，冷漠、悲伤、防御等消极情感。 白色：简单、纯真、高雅、精致、信任、干净、畅快、朴素。 灰色：睿智、老师、执着、严肃、压抑。 RGB模式，红绿蓝数值相等为中性灰（R=G=B=128，绝对中性灰）。中性灰常用于商业修图、人像精修中调整皮肤质感。 红色：喜庆、自信、斗志、权威、性感。 绿色：生命力、青春、希望、宁静、和平、舒适、安全。 蓝色：永恒、灵性、清新、自由、放松、舒适、宁静、商务。 紫色：优雅、浪漫、高贵、时尚、神秘、梦幻、灵性、妖媚、创造力。 紫+粉，女性化 不要把紫色画深了，避免“闷” 黄色：阳光、青春、活力、时尚、尊贵、年轻、轻快、辉煌、希望。 黄+黑，警戒线 黄色不要拿来当最深的颜色，避免“脏” 更新记录 19-02-03 first commit 参考 色彩心理学 - MBA智库百科 色彩心理学 - Jinkawiki 颜色 - 维基百科，自由的百科全书 网络绘画公开课（直播课程，无特定链接）]]></content>
@@ -42,8 +55,8 @@
         <category>Murmur</category>
       </categories>
       <tags>
-        <tag>TYPE-MOON</tag>
         <tag>game</tag>
+        <tag>TYPE-MOON</tag>
         <tag>film</tag>
       </tags>
   </entry>
