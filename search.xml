@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Mini Program]]></title>
+    <url>%2FProgramming%2Fmini-program%2F</url>
+    <content type="text"><![CDATA[微信小程序的项目结构： project|– pages| |– index| | |– index.json index 页面配置| | |– index.js index 页面逻辑| | |– index.wxml index 页面结构| | |– index.wxss index 页面样式表| |– log| |– log.json log 页面配置| |– log.wxml log 页面逻辑| |– log.js log 页面结构| |– log.wxss log 页面样式表|– app.js 小程序逻辑|– app.json 小程序公共设置|– app.wxss 小程序公共样式表]]></content>
+      <categories>
+        <category>Programming</category>
+      </categories>
+      <tags>
+        <tag>mina</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Apple News+]]></title>
     <url>%2FMurmur%2Fapple-news-plus%2F</url>
     <content type="text"><![CDATA[Apple doesn’t allow advertisers to track you. News+ 的卖点为隐私保护（广告商不能追踪用户行为），过滤信息杂讯并推送给用户严肃且可信的信息。 封面很像《哈利波特》系列中的报纸和壁画，真令人心动！ 更令我感动的是苹果真的在意客户隐私，如今挖掘用户行为推荐算法横行，人们看到的很多信息都是被算法推荐”控制”的。突然想到当今社会如此分裂，或许和这个不无关系。人们往往只看他们想看的，思想会越来越极端，且难以察觉自己正一步步跑偏，只会觉得自己的想法得到所谓的大多数人的认同，不信你看网上都是这样的观点。进而当别人反驳你的时候，甚至认为对方时傻逼，大家都这么想怎么就你喜欢标新立异？（春节回家部分长辈口若悬河般大放厥词自己稍作辩解后就引来他们的迷之鄙视 →_→）]]></content>
