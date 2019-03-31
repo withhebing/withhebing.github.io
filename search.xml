@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Fate/Grand Order Quest]]></title>
+    <url>%2FMurmur%2Ffate-grand-order-quest%2F</url>
+    <content type="text"><![CDATA[哈哈哈，一年一度的沙雕活动又来啦！]]></content>
+      <categories>
+        <category>Murmur</category>
+      </categories>
+      <tags>
+        <tag>game</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Mini Program]]></title>
     <url>%2FProgramming%2Fmini-program%2F</url>
-    <content type="text"><![CDATA[微信小程序的项目结构： project|– pages| |– index| | |– index.json index 页面配置| | |– index.js index 页面逻辑| | |– index.wxml index 页面结构| | |– index.wxss index 页面样式表| |– log| |– log.json log 页面配置| |– log.wxml log 页面逻辑| |– log.js log 页面结构| |– log.wxss log 页面样式表|– app.js 小程序逻辑|– app.json 小程序公共设置|– app.wxss 小程序公共样式表]]></content>
+    <content type="text"><![CDATA[微信小程序的项目结构： 123456789101112131415project|-- pages| |-- index| | |-- index.json index 页面配置| | |-- index.js index 页面逻辑| | |-- index.wxml index 页面结构| | |-- index.wxss index 页面样式表| |-- log| |-- log.json log 页面配置| |-- log.wxml log 页面逻辑| |-- log.js log 页面结构| |-- log.wxss log 页面样式表|-- app.js 小程序逻辑|-- app.json 小程序公共设置|-- app.wxss 小程序公共样式表 微信，支付宝小程序实现原理概述 - 掘金]]></content>
       <categories>
         <category>Programming</category>
       </categories>
